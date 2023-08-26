@@ -1,5 +1,4 @@
-// npm install express  or npm i express
-const http = require("http") ;
+// npm install express  or npm i express ;
 const express = require("express") ;
 
 const app = express() ;
@@ -9,9 +8,7 @@ app.get("/", (req,res) => {
 }) ;
 
 app.get("/about", (req,res) => {
-    return res.send("i am chinmay") ;
+    return res.send(`hey your name is ${req.query.name} and your age is ${req.query.age}`) ;
 }) ;
 
-const myServer = http.createServer(app) ;
-
-app.listen(8000, () => console.log("i am listening")) ;
+app.listen(8000 , () => console.log("heyy i am listening ") ) ;
