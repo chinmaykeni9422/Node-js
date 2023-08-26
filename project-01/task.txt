@@ -1,0 +1,38 @@
+** DESIGNING A REST API - JSON **
+
+
+// for only browser  
+GET/user -> list all the user  
+GET/user1 -> Get the user with ID 1
+GET/user2 -> Get the user with ID 2
+
+// for any client side like mobile
+GET/api/user -> list all the user  // for html rendering 
+GET/api/user1 -> Get the user with ID 1
+GET/api/user2 -> Get the user with ID 2
+
+---------------------------------------------------
+
+// for only browser  
+POST/user -> create new user 
+
+// for any client side like mobile
+POST/api/user -> create new user 
+
+----------------------------------------------------
+
+// for only browser  
+PATCH/use/1 -> edit the user with ID 1
+PATCH/use/2 -> edit the user with ID 2
+
+// for any client side like mobile
+PATCH/api/use/1 -> edit the user with ID 1
+PATCH/api/use/2 -> edit the user with ID 2
+
+------------------------------------------------------
+
+// for only browser  
+DELETE/user/1 -> delete the user with ID 1
+
+// for any client side like mobile
+DELETE/api/user/1 -> delete the user with ID 1
