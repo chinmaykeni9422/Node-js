@@ -1,54 +1,78 @@
 const express = require("express") ;
+const fs = require("fs") ;
 const users = require("./MOCK_DATA.json") ;
 
 const app = express() ;
-
 const PORT = 8000 ;
 
-// ROUTES
 
-app.get('/users' , (req,res) => {
+// Middleware -> plugin
+app.use(express.urlencoded({extended: false})) ;
 
+
+
+
+// Routes 
+//GET method -------------------------------------------------------------------------------------------------------------
+
+// 1) get all the users
+// A) GET/api/users
+app.get("/api/users",(req,res) => {
+    res.json(users) ;
+}) ;
+// B) GET/users  (HTML document render)
+app.get("/users",(req,res) => {
     const html = `
         <ul>
-            ${users.map((user) => `<li>${user.first_name}</li>`).join("")}
+            ${users.map((users) => `<li>${users.first_name}</li>`).join("")}
         </ul>
     ` ;
-
     res.send(html) ;
 }) ;
 
-// REST API's 
-
-app.get('/api/users' , (req,res) => {
-    //using "res.json()" cuz we are working in json 
-    return res.json(users) ;
-}) ;
 
 
-//Dynamic path parameters
-//get/api/users/:id 
-// : => variable | Dynamic
-app.get('/api/users/:id', (req,res) => {
+//2) get the user according to it's ID
+// dynamic path parameters -> here we use ":" (coloun)
+//A) GET/api/users/:id 
+app.get("/api/users/:id",(req,res) => {
     const id = Number(req.params.id) ;
-    const user = users.find(user =>user.id === id) ;
-    return res.json(user) ;
+    const user = users.find((users) => users.id === id) ;
+    res.json(user) ;
+}) ;
+//B) Get/users/:id 
+app.get("/users/:id",(req,res) => {
+    const id = Number(req.params.id) ;
+    const user = users.find((users) => users.id === id) ;
+    const html = `
+        <ul>
+            <li>${user.first_name}</li>
+        </ul>
+    ` ;
+    res.send(html) ;  
 }) ;
 
-app.post("/api/user",(req,res) => {
-    // TODO : create server
-    return res.json({status : "pending"}) ;
+//-------------------------------------------------------------------------------------------------------------------------
+
+
+app.post("/api/users",(req,res) => {
+    const body = req.body ;  // ->  have the send data
+    users.push({...body, id: users.length + 1}) ;
+    fs.writeFile("./MOCK_DATA.json", JSON.stringify(users),(err,data) => {
+        return res.json({status : "pending",id: users.length}) ;
+    }) ;
 }) ;
 
-app.patch("/api/user/:id",(req,res) => {
-    // TODO : edit the user with id
-    return res.json({status : "pending"}) ;
+app.patch("/api/users/:id",(req,res) => {
+    // edit user with id  
+    res.json({status : "pending"}) ;
 }) ;
 
-app.delete("/api/user/:id",(req,res) => {
-    // TODO : delete the user with id
-    return res.json({status : "pending"}) ;
+app.delete("/api/users/:id",(req,res) => {
+    // delete user 
+    res.json({status : "pending"}) ;
 }) ;
 
 
-app.listen(PORT, () => console.log(`Server Started At PORT: ${PORT}`)) ;
+
+app.listen(PORT, () => console.log(`sever started at ${PORT}`)) ;
