@@ -9,7 +9,17 @@ const PORT = 8000 ;
 // Middleware -> plugin
 app.use(express.urlencoded({extended: false})) ;
 
+//creating a middle ware
+app.use((req,res,next) => {
+    console.log("hello from middlewaare one") ;
+    // return res.json({msg : "hello from middle ware one"}) ;
+    next() ;
+}) ;
 
+app.use((req,res,next) => {
+    console.log("hello from middlewaare two") ;
+    next() ;
+}) ;
 
 
 // Routes 
